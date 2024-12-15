@@ -3,7 +3,6 @@ import iziToast from "izitoast"
 import "izitoast/dist/css/iziToast.min.css";
 import errorIconUrl from '../img/error.svg'
 
-
 const alerts = {
     noImagesAlert() {
         iziToast.warning({
