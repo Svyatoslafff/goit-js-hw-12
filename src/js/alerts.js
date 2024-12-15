@@ -1,6 +1,8 @@
 `use strict`
 import iziToast from "izitoast"
 import "izitoast/dist/css/iziToast.min.css";
+import errorIconUrl from '../img/error.svg'
+
 
 const alerts = {
     noImagesAlert() {
@@ -9,7 +11,7 @@ const alerts = {
             backgroundColor: '#f54e4ed7',
             messageColor: '#fff',
             iconColor: '#fff',
-            iconUrl: './img/error.svg', 
+            iconUrl: `${errorIconUrl}`, 
             progressBarColor: '#b51b1b',
             position: "topRight",
         });
@@ -20,7 +22,7 @@ const alerts = {
             backgroundColor: '#f54e4ed7',
             messageColor: '#fff',
             iconColor: '#fff',
-            iconUrl: './img/error.svg', 
+            iconUrl: `${errorIconUrl}`, 
             progressBarColor: '#b51b1b',
             position: "topRight",
         });
@@ -31,7 +33,7 @@ const alerts = {
             backgroundColor: '#f54e4ed7',
             messageColor: '#fff',
             iconColor: '#fff',
-            iconUrl: './img/error.svg', 
+            iconUrl: `${errorIconUrl}`, 
             progressBarColor: '#b51b1b',
             position: "topRight",
         });
