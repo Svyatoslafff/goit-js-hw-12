@@ -134,13 +134,12 @@ body .isActive{
 }
 
 .loader {
+  padding: 15px;
   width: 60px;
   height: 40px;
-  position: fixed;
+  position: relative;
   display: none;
-  left: calc(50% - 30px);
-  top: calc(25% - 20px);
-  --base-color: #ffffff;
+  --base-color: #fff;
   /*use your base color*/
 }
 

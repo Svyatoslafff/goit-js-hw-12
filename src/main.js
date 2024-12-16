@@ -23,7 +23,7 @@ export const searchImages = {
         } else {
             searchImages.galleryList.innerHTML = '';
             searchImages.loader.classList.toggle('isActive');
-
+            
             imagesRequest(name)
                 .then((data) => {
                     searchImages.loader.classList.toggle('isActive');
