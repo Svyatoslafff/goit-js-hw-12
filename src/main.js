@@ -34,6 +34,7 @@ export const searchImages = {
                     }
                 })
                 .catch((error) => {
+                    searchImages.loader.classList.toggle('isActive');
                     alerts.errorAlert(error);
         });
         }
