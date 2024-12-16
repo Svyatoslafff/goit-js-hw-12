@@ -21,7 +21,6 @@ export const searchImages = {
         if (name == '') {
             alerts.blankNameAlert();
         } else {
-            searchImages.galleryList.innerHTML = '';
             searchImages.loader.classList.toggle('isActive');
 
             imagesRequest(name)
@@ -30,6 +29,7 @@ export const searchImages = {
                     if (data.hits.length === 0) {
                         alerts.noImagesAlert();   
                     } else {
+                        searchImages.galleryList.innerHTML = '';
                         renderImages(data.hits);   
                     }
                 })
