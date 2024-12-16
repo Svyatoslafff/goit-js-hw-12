@@ -5,6 +5,8 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 
 import { searchImages } from '../main';
 
+let gallery = new SimpleLightbox('.gallery a');
+
 export default function renderImages(imagesArray) {
     if (!imagesArray.length) {
         console.log('error');
@@ -37,7 +39,7 @@ export default function renderImages(imagesArray) {
         })
             .join('');
         searchImages.galleryList.insertAdjacentHTML('afterbegin', imagesCode);
-        let gallery = new SimpleLightbox('.gallery a');
+        gallery.refresh();
     }
 
 }
