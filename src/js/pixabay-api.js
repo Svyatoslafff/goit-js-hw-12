@@ -7,7 +7,7 @@ const params = {
     key: '47647648-d075ef4691a544101dba04dbb',
     image_type: 'photo',
     orientation: 'horizontal',
-    per_page: 100,
+    per_page: 15,
     page: 1,
 }
 
@@ -24,5 +24,6 @@ export async function imagesRequest(name) {
 export async function loadMoreRequest(page) {
     params.page = page
     return (await axios.get(`?${createURL()}`))
-        .data;
+        .data
+        .hits;
 }

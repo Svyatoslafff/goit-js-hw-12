@@ -18,7 +18,7 @@ export const searchImages = {
     showImages(event) {
         event.preventDefault();
 
-        // search name validator
+        // validator of search name 
         const name = searchImages.nameInput.value.trim();
         if (name.includes(' ')) {
             name = name.split(' ').join('+');
@@ -31,15 +31,14 @@ export const searchImages = {
             // galary clearing
             searchImages.galleryList.innerHTML = '';
 
-            // show loader and load more button
+            // show loader and remove load-more button
             searchImages.loader.classList.toggle('isActive');
             searchImages.loadMoreButton.classList.remove('isActive');
             
             page = 1;
             imagesRequest(name)
                 .then(({data, totalHits}) => {
-                    totalPages = totalHits / 100;
-                    console.log(data);
+                    totalPages = totalHits / 15;
                     
                     searchImages.loader.classList.toggle('isActive');
                     
@@ -47,13 +46,15 @@ export const searchImages = {
                         alerts.noImagesAlert();   
                     } else {
                         renderImages(data);   
-                        searchImages.loadMoreButton.classList.add('isActive');
+                        if (totalPages > page) {
+                            searchImages.loadMoreButton.classList.add('isActive');
+                        }
                     }
                 })
                 .catch((error) => {
                     searchImages.loader.classList.toggle('isActive');
                     alerts.errorAlert(error.message);
-        });
+                });
         }
     },
     loadMore(event) {
@@ -63,20 +64,26 @@ export const searchImages = {
         loadMoreRequest(page)
             .then((data) => {
                 searchImages.loader.classList.toggle('isActive');
-                data = data.hits;
 
                 renderImages(data);   
 
+                // scroll down
+                const height = (document.querySelector('.image-container').getBoundingClientRect().height) * 2;
+                window.scrollBy({
+                    top: height,
+                    behavior: 'smooth'
+                });
+
                 // end of gallery
-                if (page === totalPages) {
+                if (page >= totalPages) {
                     searchImages.loadMoreButton.classList.remove('isActive');
                     alerts.lastPageAlert();
                 }
             })
-        .catch((error) => {
+            .catch((error) => {
                     searchImages.loader.classList.toggle('isActive');
                     alerts.errorAlert(error.message);
-        });
+            });
     }
 }
 
