@@ -36,6 +36,12 @@ const alerts = {
             progressBarColor: '#b51b1b',
             position: "topRight",
         });
+    },
+    lastPageAlert() {
+        iziToast.info({
+            message: "We're sorry, but you've reached the end of search results.",
+            position: "topRight",
+        })
     }
 }
 export default alerts;

@@ -1,44 +1,84 @@
 'use strict'
 
-import imagesRequest from './js/pixabay-api';
+import {imagesRequest, loadMoreRequest} from './js/pixabay-api';
 import renderImages from './js/render-functions.js';
 import alerts from './js/alerts.js'
+
+export let page;
+let totalPages;
 
 export const searchImages = {
     form: document.querySelector('.searching-form'),
     nameInput: document.querySelector('.search-input'),
     submitButton: document.querySelector('.searching-form>.form-button'),
-    loader: document.querySelector('.loader'),
     galleryList: document.querySelector('.gallery'),
+    loader: document.querySelector('.loader'),
+    loadMoreButton: document.querySelector('button[data-action=load-more]'), 
+
     showImages(event) {
         event.preventDefault();
 
+        // search name validator
         const name = searchImages.nameInput.value.trim();
         if (name.includes(' ')) {
             name = name.split(' ').join('+');
         };
 
+        // blank name cheking
         if (name == '') {
             alerts.blankNameAlert();
         } else {
+            // galary clearing
             searchImages.galleryList.innerHTML = '';
+
+            // show loader and load more button
             searchImages.loader.classList.toggle('isActive');
+            searchImages.loadMoreButton.classList.remove('isActive');
             
+            page = 1;
             imagesRequest(name)
-                .then((data) => {
+                .then(({data, totalHits}) => {
+                    totalPages = totalHits / 100;
+                    console.log(data);
+                    
                     searchImages.loader.classList.toggle('isActive');
-                    if (data.hits.length === 0) {
+                    
+                    if (data.length === 0) {
                         alerts.noImagesAlert();   
                     } else {
-                        renderImages(data.hits);   
+                        renderImages(data);   
+                        searchImages.loadMoreButton.classList.add('isActive');
                     }
                 })
                 .catch((error) => {
                     searchImages.loader.classList.toggle('isActive');
-                    alerts.errorAlert(error);
+                    alerts.errorAlert(error.message);
         });
         }
     },
+    loadMore(event) {
+        event.preventDefault();
+        page += 1;
+        searchImages.loader.classList.toggle('isActive');
+        loadMoreRequest(page)
+            .then((data) => {
+                searchImages.loader.classList.toggle('isActive');
+                data = data.hits;
+
+                renderImages(data);   
+
+                // end of gallery
+                if (page === totalPages) {
+                    searchImages.loadMoreButton.classList.remove('isActive');
+                    alerts.lastPageAlert();
+                }
+            })
+        .catch((error) => {
+                    searchImages.loader.classList.toggle('isActive');
+                    alerts.errorAlert(error.message);
+        });
+    }
 }
 
 searchImages.form.addEventListener('submit', searchImages.showImages);
+searchImages.loadMoreButton.addEventListener('click', searchImages.loadMore);

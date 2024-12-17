@@ -41,6 +41,6 @@ export default function renderImages(imagesArray) {
                 </li>` 
         })
         .join('');
-    searchImages.galleryList.insertAdjacentHTML('afterbegin', imagesCode);
+    searchImages.galleryList.insertAdjacentHTML("beforeend", imagesCode);
     gallery.refresh();
 }
