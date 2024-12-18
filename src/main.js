@@ -60,13 +60,14 @@ export const searchImages = {
     loadMore(event) {
         event.preventDefault();
         page += 1;
+        searchImages.loadMoreButton.classList.remove('isActive');
         searchImages.loader.classList.toggle('isActive');
         loadMoreRequest(page)
             .then((data) => {
                 searchImages.loader.classList.toggle('isActive');
 
                 renderImages(data);   
-
+                searchImages.loadMoreButton.classList.remove('isActive');
                 // scroll down
                 const height = (document.querySelector('.image-container').getBoundingClientRect().height) * 2;
                 window.scrollBy({
@@ -78,6 +79,8 @@ export const searchImages = {
                 if (page >= totalPages) {
                     searchImages.loadMoreButton.classList.remove('isActive');
                     alerts.lastPageAlert();
+                } else {
+                    searchImages.loadMoreButton.classList.add('isActive');
                 }
             })
             .catch((error) => {

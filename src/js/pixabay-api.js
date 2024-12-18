@@ -8,7 +8,6 @@ const params = {
     image_type: 'photo',
     orientation: 'horizontal',
     per_page: 15,
-    page: 1,
 }
 
 function createURL() {
@@ -17,12 +16,15 @@ function createURL() {
 
 export async function imagesRequest(name) {
     params.q = name;
+    params.page = 1;
+
     const responce = await axios.get(`?${createURL()}`);
     return ({data: responce.data.hits, totalHits:responce.data.totalHits});
 }
 
 export async function loadMoreRequest(page) {
     params.page = page
+
     return (await axios.get(`?${createURL()}`))
         .data
         .hits;
